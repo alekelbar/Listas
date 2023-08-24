@@ -1,1 +1,39 @@
-.vs
+# Compiled Object files
+*.suo
+*.obj
+*.o
+*.pdb
+
+# Compiled Dynamic libraries
+*.dll
+
+# Compiled Static libraries
+*.lib
+
+# Executables
+*.exe
+
+# Compiled Output
+bin/
+Debug/
+Release/
+
+# Visual Studio files
+.vscode/
+.vs/
+
+# CMake build directory
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+
+# User-specific files
+*.user
+*.sln.docstates
+*.sdf
+
+# Windows image file caches
+Thumbs.db
+
+# macOS directory attributes
+.DS_Store
