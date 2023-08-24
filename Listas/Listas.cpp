@@ -10,14 +10,16 @@ public:
 	int value;
 
 	Node(int value) { this->value = value; }
+	int getValue() { return this->value; }
+	void setValue(int value) { this->value = value; }
 };
 
-class Lista {
+class CustomList {
 	Node* top;
 	Node* end;
 
 public:
-	Lista() {
+	CustomList() {
 		top = NULL;
 		end = NULL;
 	}
@@ -26,12 +28,39 @@ public:
 		return top;
 	}
 
-	Node* getEnd() { return end; }
+	Node* getEnd() {
+		return end;
+	}
 
-	int add(int value) {
+	CustomList sumProduct(CustomList toSum) {
+		Node* second = toSum.getHead();
+		CustomList result;
+
+		for (Node* internalNode = top; internalNode != NULL; internalNode = internalNode->next)
+		{
+			std::cout << internalNode->value << " -> ";
+			Node* node = new Node(0); // La nueva lista
+
+			for (Node* externalNode = second; externalNode != NULL; externalNode = externalNode->next)
+			{
+				int value = node->getValue();
+				int internalValue = internalNode->getValue();
+				int externalValue = externalNode->getValue();
+
+				node->setValue(value + internalValue * externalValue);
+
+				std::cout << externalNode->value << " ";
+			}
+			result.add(node);
+			std::cout << std::endl;
+		}
+		return result;
+	}
+
+	int add(Node* newNode) {
 		if (top == NULL) {
 			// NO hay ningún elemento en la lista...
-			top = new Node(value);
+			top = newNode;
 			end = top; return 0;
 		}
 
@@ -41,58 +70,11 @@ public:
 			actual = actual->next;
 			index++;
 		}
-		actual->next = new Node(value);
+		actual->next = newNode;
 
 		end = actual->next;
 		return index;
 	}
-
-	int remove(int index) {
-		if (top == NULL) return -1;
-
-		if (index == 0) {
-			auto before = top;
-			top = top->next;
-			delete before;
-			return index;
-		};
-
-		Node* before = NULL;
-		Node* act = top;
-		int count = 0;
-		while (act->next != NULL && count != index)
-		{
-			before = act;
-			act = act->next;
-			count++;
-		}
-
-		std::cout << "\n - " << before->value << " - \n";
-
-		// ultimo nodo...
-		if (act->next == NULL && count == index) {
-			before->next = NULL;
-			end = before;
-			delete act;
-			return index;
-		}
-
-		// Nodo medio...
-		if (count == index) {
-			before->next = act->next;
-			delete act;
-		}
-
-		return index;
-
-		// Valor en medio....
-		// x vacia ()
-		// . ()
-		// .___ primer elemento ()
-		// ____. último elemento
-		// -.-- Elemento medio
-	}
-
 
 	void showList() {
 		Node* actual = this->top;
@@ -107,17 +89,20 @@ public:
 
 int main()
 {
-	Lista list = Lista();
-	list.add(1);
-	list.add(2);
-	list.add(3);
+	CustomList list = CustomList();
+	CustomList list2 = CustomList();
+	list.add(new Node(1));
+	list.add(new Node(1));
+	list.add(new Node(1));
+	list2.add(new Node(2));
+	list2.add(new Node(2));
+	list2.add(new Node(2));
+
 	list.showList();
 	std::cout << "head: " << list.getHead()->value << std::endl;
 	std::cout << "end: " << list.getEnd()->value << std::endl;
-	list.remove(2);
-	list.showList();
-	std::cout << "head: " << list.getHead()->value << std::endl;
-	std::cout << "end: " << list.getEnd()->value << std::endl;
+	auto result = list.sumProduct(list2);
+	result.showList();
 
 }
 
